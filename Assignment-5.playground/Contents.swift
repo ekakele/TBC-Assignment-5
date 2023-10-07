@@ -152,10 +152,12 @@ task(for: 5, exercise: "შექმენით enum-ი Genre მუსიკ�
         var artist: String
         var duration: Float
         var genre: Genre
+        lazy var publisher = "N/A"
         var description: String {
-            return "Title: \(title)\nArtist: \(artist)\nDuration: \(duration) seconds\nGenre: \(genre)"
+            mutating get {
+                return "Title: \(title)\nArtist: \(artist)\nDuration: \(duration) seconds\nGenre: \(genre)\nPublisher: \(publisher)"
+            }
         }
-        lazy var publisher: String? = nil
     }
     
     var myPlaylist: [Song] = [
@@ -173,10 +175,6 @@ task(for: 5, exercise: "შექმენით enum-ი Genre მუსიკ�
     let filteredSong = playlistFilter(playlist: myPlaylist, genre: .jazz)
     for var song in filteredSong {
         print(song.description)
-        if let publisher = song.publisher {
-            print("Publisher: \(publisher)")
-        }
     }
 }
-
 
