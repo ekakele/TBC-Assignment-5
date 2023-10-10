@@ -12,14 +12,26 @@ task(for: 1, exercise: "შექმენით enum-ი სახელით 
         case sunday
     }
     
-    func workOrRest(day: DayOfWeek) {
+    //checking with a SWITCH statement:
+    func workOrRestV1(day: DayOfWeek) {
+        switch day {
+        case .saturday, .sunday:
+            print("Rest day")
+        case .monday, .tuesday, .wednesday, .thursday, .friday:
+            print("Work day")
+        }
+    }
+    
+    //    checking with IF-ELSE statement:
+    func workOrRestV2(day: DayOfWeek) {
         if day == .saturday || day == .sunday {
             print("Rest day")
         } else {
             print("Work day")
         }
     }
-    workOrRest(day: .saturday)
+    workOrRestV1(day: .saturday)
+    workOrRestV2(day: .monday)
 }
 
 
@@ -88,12 +100,12 @@ task(for: 3, exercise: "შექმენით struct-ი Book, with propertie
         Book(title: "The Stranger", author: "Albert Camus", publicationYear: 1942)
     ]
     
-    func searchForABook(library: [Book]) -> [Book] {
-        let filteredBooks = library.filter { $0.publicationYear >= 1930 }
+    func searchForABook(library: [Book], year: Int) -> [Book] {
+        let filteredBooks = library.filter { $0.publicationYear >= year }
         return filteredBooks
     }
     
-    let filteredBooks = searchForABook(library: bookLibrary)
+    let filteredBooks = searchForABook(library: bookLibrary, year: 1930)
     
     for book in filteredBooks {
         print(book)
@@ -113,7 +125,7 @@ task(for: 4, exercise: "შექმენით struct BankAccount, with proper
             self.accountNumber = accountNumber
             self.balance = balance
         }
-        
+        //modifying the properties of the structure
         mutating func withdraw(money: Float) {
             if money > balance {
                 print("You don't have enough money on your account.")
@@ -122,16 +134,20 @@ task(for: 4, exercise: "შექმენით struct BankAccount, with proper
             } else if money < 5 {
                 print("The min amount of money you can withdraw is 5.")
             } else {
+                //self. behind the scenes is defined by let keyword. so, in order to make the property defined in the struct to mutate we need to write mutating keyword in front of the function.
                 balance -= money
                 print("Money withdrawal in process. Your account now holds \(String(format: "%.2f", balance))") // formatting the float using "format string" to round up to 2 digits after the decimal point
             }
         }
         //modifying the properties of the structure
         mutating func deposit(money: Float) {
-            balance += money
-            print("Your account will be updated shortly. Your current balance is \(String(format: "%.2f", balance))") // formatting the float using "format string" to round up to 2 digits after the decimal point
+            if money <= 0 {
+                print("You can't add 0 or less than 0 money on your deposit.")
+            } else {
+                balance += money
+                print("Your account will be updated shortly. Your current balance is \(String(format: "%.2f", balance))") // formatting the float using "format string" to round up to 2 digits after the decimal point
+            }
         }
-        
     }
     
     var myBankAccount = BankAccount(holderName: "Mike Wazowski", accountNumber: 170299754395, balance: 2700.68)
